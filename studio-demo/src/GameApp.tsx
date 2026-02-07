@@ -6,7 +6,8 @@ import ResourceBar from './components/game/ResourceBar'
 import DecisionModal from './components/game/DecisionModal'
 import CompanyPortfolio from './components/game/CompanyPortfolio'
 import AgentUpgrade from './components/game/AgentUpgrade'
-import { Building2, Sparkles, TrendingUp, Users } from 'lucide-react'
+import LiveAgentShowcase from './components/game/LiveAgentShowcase'
+import { Building2, Sparkles, TrendingUp, Users, Play } from 'lucide-react'
 import { useGameStore } from './store/gameStore'
 import { useRealAnalysis } from './hooks/useRealAnalysis'
 
@@ -69,6 +70,7 @@ function GameApp() {
 
   const [showIdeaBoard, setShowIdeaBoard] = useState(true)
   const [tutorial, setTutorial] = useState(true)
+  const [showLiveShowcase, setShowLiveShowcase] = useState(true) // Auto-show on load
 
   // Load first idea on mount
   useEffect(() => {
@@ -185,6 +187,48 @@ function GameApp() {
                 </button>
               </div>
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Live Agent Showcase - Priority 0: Auto-show on page load */}
+      <AnimatePresence>
+        {showLiveShowcase && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ y: 50 }}
+              animate={{ y: 0 }}
+              className="bg-slate-900 rounded-3xl shadow-2xl border-2 border-cyan-500/50 max-w-6xl w-full max-h-[90vh] overflow-auto"
+            >
+              {/* Header */}
+              <div className="p-6 border-b border-slate-800">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-3xl font-bold gradient-text mb-2">
+                      🤖 Watch AI Agents Work in Real-Time
+                    </h2>
+                    <p className="text-slate-400">
+                      See how our autonomous agents analyze startup ideas
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setShowLiveShowcase(false)}
+                    className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl font-bold hover:scale-105 transition-transform flex items-center gap-2"
+                  >
+                    <Play className="w-5 h-5" />
+                    Start Building
+                  </button>
+                </div>
+              </div>
+
+              {/* Live Showcase */}
+              <LiveAgentShowcase />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
