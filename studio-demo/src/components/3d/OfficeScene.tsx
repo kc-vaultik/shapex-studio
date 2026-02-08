@@ -8,7 +8,7 @@ import { OrbitControls, Environment } from '@react-three/drei'
 import { useGameStore, selectCurrentPhase } from '../../store/gameStore'
 import OfficeZones from './OfficeZones'
 import AgentAvatars from './AgentAvatars'
-import Effects from './Effects'
+// import Effects from './Effects' // Temporarily disabled due to postprocessing version compatibility
 import { GamePhase } from '../../store/gameStore'
 
 // Zone Labels Component - Using placeholder spheres due to Text3D version compatibility
@@ -84,8 +84,8 @@ export default function OfficeScene() {
           <meshStandardMaterial color="#1a1a2e" roughness={0.8} />
         </mesh>
 
-        {/* Post-Processing Effects */}
-        <Effects />
+        {/* Post-Processing Effects - Temporarily disabled due to version compatibility */}
+        {/* <Effects /> */}
 
         {/* Camera Controls */}
         <OrbitControls
