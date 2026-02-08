@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShapeX - AI Venture Studio</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <%- include('partials/header') %>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>🚀 ShapeX</h1>
+            <p class="tagline">Autonomous AI Venture Studio</p>
+            <p class="subtitle">Discovering high-potential startup opportunities powered by AI</p>
+            <button class="btn-primary" onclick="triggerScan()">Run Scan Now</button>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">💡</div>
+                <div class="stat-value"><%= stats?.ideas?.total || 0 %></div>
+                <div class="stat-label">Total Ideas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-value"><%= stats?.ideas?.strategic || 0 %></div>
+                <div class="stat-label">Strategic</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-value"><%= stats?.ideas?.quick_wins || 0 %></div>
+                <div class="stat-label">Quick Wins</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-value"><%= stats?.scores?.average_overall.toFixed(1) || '0' %></div>
+                <div class="stat-label">Avg Score</div>
+            </div>
+        </div>
+
+        <!-- Top Opportunities -->
+        <div class="opportunities-section">
+            <h2>🏆 Top Strategic Opportunities</h2>
+            <div class="ideas-grid">
+                <% if (strategicOpportunities && strategicOpportunities.length > 0) { %>
+                    <% strategicOpportunities.forEach(idea => { %>
+                        <div class="idea-card" onclick="window.location.href='/ideas/<%= idea.id %>'">
+                            <h3><%= idea.title %></h3>
+                            <p class="idea-description"><%= idea.description %></p>
+                            <div class="idea-meta">
+                                <span class="badge badge-strategic"><%= idea.category %></span>
+                                <span class="score">Score: <%= idea.overall_score.toFixed(1) %>/10</span>
+                            </div>
+                            <div class="idea-footer">
+                                <span>🎯 <%= idea.target_market %></span>
+                                <span>⏱️ <%= idea.estimated_time_to_build %></span>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p class="empty-state">No strategic opportunities yet. Run a scan to generate ideas!</p>
+                <% } %>
+            </div>
+        </div>
+
+        <div class="opportunities-section">
+            <h2>⚡ Top Quick-Win Opportunities</h2>
+            <div class="ideas-grid">
+                <% if (quickWinOpportunities && quickWinOpportunities.length > 0) { %>
+                    <% quickWinOpportunities.forEach(idea => { %>
+                        <div class="idea-card" onclick="window.location.href='/ideas/<%= idea.id %>'">
+                            <h3><%= idea.title %></h3>
+                            <p class="idea-description"><%= idea.description %></p>
+                            <div class="idea-meta">
+                                <span class="badge badge-quick-win"><%= idea.category %></span>
+                                <span class="score">💰 <%= idea.monetization_score.toFixed(1) %>/10</span>
+                            </div>
+                            <div class="idea-footer">
+                                <span>⏱️ <%= idea.estimated_time_to_build %></span>
+                                <span>💵 <%= idea.estimated_startup_cost %></span>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p class="empty-state">No quick-win opportunities yet. Run a scan to generate ideas!</p>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- Trending Keywords -->
+        <div class="trends-section">
+            <h2>📈 Market Trends</h2>
+            <div class="trends-grid">
+                <% if (trends && trends.length > 0) { %>
+                    <% trends.slice(0, 10).forEach(trend => { %>
+                        <div class="trend-card">
+                            <div class="trend-keyword"><%= trend.keyword %></div>
+                            <div class="trend-metrics">
+                                <span class="metric">
+                                    <span class="metric-label">Momentum:</span>
+                                    <span class="metric-value"><%= trend.momentum_score.toFixed(0) %></span>
+                                </span>
+                                <span class="metric">
+                                    <span class="metric-label">Growth:</span>
+                                    <span class="metric-value <%= trend.growth_rate > 0 ? 'positive' : 'negative' %>">
+                                        <%= trend.growth_rate.toFixed(0) %>%
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p class="empty-state">No trend data available yet.</p>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- Last Scan Info -->
+        <% if (stats?.last_scan) { %>
+        <div class="last-scan-info">
+            <p>Last scan: <%= new Date(stats.last_scan.completed_at).toLocaleString() %>
+               (<%= stats.last_scan.ideas_generated %> ideas in <%= stats.last_scan.duration_seconds.toFixed(1) %>s)</p>
+        </div>
+        <% } %>
+    </div>
+
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

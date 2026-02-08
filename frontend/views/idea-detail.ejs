@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= idea.title %> - ShapeX</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+
+    <div class="container">
+        <div style="max-width: 900px; margin: 0 auto;">
+            <!-- Back Button -->
+            <a href="/ideas" style="color: var(--primary); text-decoration: none; margin-bottom: 20px; display: inline-block;">
+                ← Back to All Ideas
+            </a>
+
+            <!-- Title & Channel -->
+            <div style="margin: 30px 0;">
+                <h1 style="font-size: 2.5rem; margin-bottom: 15px;"><%= idea.title %></h1>
+                <span class="badge <%= idea.channel === 'strategic' ? 'badge-strategic' : 'badge-quick-win' %>">
+                    <%= idea.channel %> · <%= idea.category %>
+                </span>
+            </div>
+
+            <!-- Description -->
+            <div class="card" style="background: var(--bg-card); padding: 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px;">
+                <h3>📝 Description</h3>
+                <p style="color: var(--text-secondary); line-height: 1.8;"><%= idea.description %></p>
+            </div>
+
+            <!-- Scores -->
+            <div class="card" style="background: var(--bg-card); padding: 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px;">
+                <h3>📊 Scores</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">Overall</div>
+                        <div style="font-size: 2rem; color: var(--primary); font-weight: bold;"><%= idea.scores.overall.toFixed(1) %>/10</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">Feasibility</div>
+                        <div style="font-size: 1.5rem; font-weight: 600;"><%= idea.scores.feasibility.toFixed(1) %>/10</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">Market Demand</div>
+                        <div style="font-size: 1.5rem; font-weight: 600;"><%= idea.scores.market_demand.toFixed(1) %>/10</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">Monetization</div>
+                        <div style="font-size: 1.5rem; font-weight: 600;"><%= idea.scores.monetization.toFixed(1) %>/10</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">Competition</div>
+                        <div style="font-size: 1.5rem; font-weight: 600;"><%= idea.scores.competition.toFixed(1) %>/10</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">Risk</div>
+                        <div style="font-size: 1.5rem; font-weight: 600;"><%= idea.scores.risk.toFixed(1) %>/10</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Details -->
+            <div class="card" style="background: var(--bg-card); padding: 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px;">
+                <h3>🎯 Business Details</h3>
+                <div style="margin-top: 15px; display: grid; gap: 15px;">
+                    <div>
+                        <strong>Target Market:</strong>
+                        <p style="color: var(--text-secondary); margin-top: 5px;"><%= idea.details.target_market %></p>
+                    </div>
+                    <div>
+                        <strong>Revenue Model:</strong>
+                        <p style="color: var(--text-secondary); margin-top: 5px;"><%= idea.details.revenue_model %></p>
+                    </div>
+                    <div>
+                        <strong>Time to Build:</strong>
+                        <p style="color: var(--text-secondary); margin-top: 5px;"><%= idea.details.estimated_time_to_build %></p>
+                    </div>
+                    <div>
+                        <strong>Startup Cost:</strong>
+                        <p style="color: var(--text-secondary); margin-top: 5px;"><%= idea.details.estimated_startup_cost %></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Features -->
+            <% if (idea.details.key_features && idea.details.key_features.length > 0) { %>
+            <div class="card" style="background: var(--bg-card); padding: 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px;">
+                <h3>✨ Key Features</h3>
+                <ul style="margin-top: 15px; padding-left: 20px; color: var(--text-secondary);">
+                    <% idea.details.key_features.forEach(feature => { %>
+                        <li style="margin: 10px 0;"><%= feature %></li>
+                    <% }) %>
+                </ul>
+            </div>
+            <% } %>
+
+            <!-- Differentiation -->
+            <% if (idea.details.differentiation) { %>
+            <div class="card" style="background: var(--bg-card); padding: 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px;">
+                <h3>🚀 Competitive Advantage</h3>
+                <p style="color: var(--text-secondary); margin-top: 15px; line-height: 1.8;"><%= idea.details.differentiation %></p>
+            </div>
+            <% } %>
+
+            <!-- Competitors -->
+            <% if (idea.details.competitors && idea.details.competitors.length > 0) { %>
+            <div class="card" style="background: var(--bg-card); padding: 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px;">
+                <h3>🏢 Competitors</h3>
+                <ul style="margin-top: 15px; padding-left: 20px; color: var(--text-secondary);">
+                    <% idea.details.competitors.forEach(competitor => { %>
+                        <li style="margin: 10px 0;"><%= competitor %></li>
+                    <% }) %>
+                </ul>
+            </div>
+            <% } %>
+
+            <!-- Actions -->
+            <div style="margin-top: 30px; display: flex; gap: 15px;">
+                <button class="btn-primary" onclick="toggleFavorite(<%= idea.id %>, <%= idea.metadata.favorite %>)">
+                    <%= idea.metadata.favorite ? '⭐ Unfavorite' : '☆ Favorite' %>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function toggleFavorite(id, currentFavorite) {
+            try {
+                const response = await fetch(`/api/ideas/${id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ favorite: !currentFavorite })
+                });
+
+                if (response.ok) {
+                    window.location.reload();
+                }
+            } catch (error) {
+                console.error('Error updating favorite:', error);
+                alert('Failed to update favorite status');
+            }
+        }
+    </script>
+</body>
+</html>

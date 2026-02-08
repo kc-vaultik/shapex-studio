@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Ideas - ShapeX</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+
+    <div class="container">
+        <h1>💡 All Startup Ideas</h1>
+
+        <!-- Filters -->
+        <div class="filters" style="margin: 30px 0; display: flex; gap: 15px; flex-wrap: wrap;">
+            <select id="channelFilter" onchange="applyFilters()" style="padding: 10px; border-radius: 6px; background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border);">
+                <option value="">All Channels</option>
+                <option value="strategic" <%= filters.channel === 'strategic' ? 'selected' : '' %>>Strategic</option>
+                <option value="quick-win" <%= filters.channel === 'quick-win' ? 'selected' : '' %>>Quick Win</option>
+            </select>
+
+            <input type="number" id="minScoreFilter" placeholder="Min Score" value="<%= filters.minScore %>" onchange="applyFilters()" style="padding: 10px; border-radius: 6px; background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); width: 120px;">
+        </div>
+
+        <!-- Ideas Grid -->
+        <div class="ideas-grid">
+            <% if (ideas && ideas.length > 0) { %>
+                <% ideas.forEach(idea => { %>
+                    <div class="idea-card" onclick="window.location.href='/ideas/<%= idea.id %>'">
+                        <h3><%= idea.title %></h3>
+                        <p class="idea-description"><%= idea.description %></p>
+                        <div class="idea-meta">
+                            <span class="badge <%= idea.channel === 'strategic' ? 'badge-strategic' : 'badge-quick-win' %>">
+                                <%= idea.category %>
+                            </span>
+                            <span class="score">Score: <%= idea.overall_score.toFixed(1) %>/10</span>
+                        </div>
+                        <div class="idea-footer">
+                            <span>🎯 <%= idea.target_market %></span>
+                            <span>⏱️ <%= idea.estimated_time_to_build %></span>
+                        </div>
+                        <div style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 0.85rem; color: var(--text-secondary);">
+                                <%= new Date(idea.created_at).toLocaleDateString() %>
+                            </span>
+                            <% if (idea.favorite) { %>
+                                <span style="font-size: 1.2rem;">⭐</span>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p class="empty-state">No ideas found. Try adjusting your filters or run a new scan!</p>
+            <% } %>
+        </div>
+    </div>
+
+    <script>
+        function applyFilters() {
+            const channel = document.getElementById('channelFilter').value;
+            const minScore = document.getElementById('minScoreFilter').value;
+
+            const params = new URLSearchParams();
+            if (channel) params.append('channel', channel);
+            if (minScore) params.append('min_score', minScore);
+
+            window.location.href = '/ideas?' + params.toString();
+        }
+    </script>
+</body>
+</html>
