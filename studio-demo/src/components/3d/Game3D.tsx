@@ -10,11 +10,15 @@ import GameHUD from './GameHUD'
 import IdeaBoardModal from '../IdeaBoardModal'
 import PortfolioModal from '../PortfolioModal'
 import DecisionModal from '../DecisionModal'
+import { useSounds } from '../../hooks/useSounds'
 
 export default function Game3D() {
   const initGame = useGameStore((state) => state.initGame)
   const tick = useGameStore((state) => state.tick)
   const isPlaying = useGameStore((state) => state.isPlaying)
+
+  // Initialize sound system (auto-plays phase change sounds)
+  useSounds()
 
   // Initialize game on mount
   useEffect(() => {

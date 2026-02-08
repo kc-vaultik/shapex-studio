@@ -8,6 +8,7 @@ import { useFrame } from '@react-three/fiber'
 import { Mesh, Group, Vector3 } from 'three'
 import { useGameStore, selectAgents, Agent } from '../../store/gameStore'
 import { Text } from '@react-three/drei'
+import EnhancedAgentModel from './EnhancedAgentModel'
 
 function AgentAvatar({ agent }: { agent: Agent }) {
   const groupRef = useRef<Group>(null)
@@ -53,51 +54,10 @@ function AgentAvatar({ agent }: { agent: Agent }) {
 
   return (
     <group ref={groupRef} position={[agent.position.x, agent.position.y, agent.position.z]}>
-      {/* Agent Body (Cube for now - can be replaced with GLTF model) */}
-      <mesh ref={bodyRef} position={[0, 0.5, 0]} castShadow>
-        <boxGeometry args={[0.6, 1, 0.6]} />
-        <meshPhysicalMaterial
-          color={agent.color}
-          emissive={agent.color}
-          emissiveIntensity={agent.status === 'WORKING' ? 1.5 : 0.3}
-          metalness={0.5}
-          roughness={0.2}
-          transparent
-          opacity={0.9}
-        />
-      </mesh>
-
-      {/* Agent "Head" */}
-      <mesh position={[0, 1.3, 0]} castShadow>
-        <sphereGeometry args={[0.3, 16, 16]} />
-        <meshPhysicalMaterial
-          color={agent.color}
-          emissive={agent.color}
-          emissiveIntensity={agent.status === 'WORKING' ? 2 : 0.5}
-          metalness={0.8}
-          roughness={0.1}
-        />
-      </mesh>
-
-      {/* Status Indicator (Ring above head) */}
-      {agent.status === 'WORKING' && (
-        <mesh position={[0, 2, 0]} rotation={[0, 0, 0]}>
-          <torusGeometry args={[0.4, 0.05, 8, 32]} />
-          <meshBasicMaterial
-            color={agent.color}
-            emissive={agent.color}
-            emissiveIntensity={2}
-          />
-        </mesh>
-      )}
-
-      {/* Success Checkmark */}
-      {agent.status === 'SUCCESS' && (
-        <mesh position={[0, 2, 0]}>
-          <sphereGeometry args={[0.2, 16, 16]} />
-          <meshBasicMaterial color="#00FF00" emissive="#00FF00" emissiveIntensity={2} />
-        </mesh>
-      )}
+      {/* Enhanced Agent Model */}
+      <group ref={bodyRef} position={[0, 0.5, 0]}>
+        <EnhancedAgentModel agent={agent} />
+      </group>
 
       {/* Agent Name Label */}
       <Text
