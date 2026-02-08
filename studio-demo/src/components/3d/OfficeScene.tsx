@@ -4,19 +4,19 @@
  */
 
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Environment, Text3D, Center } from '@react-three/drei'
+import { OrbitControls, Environment } from '@react-three/drei'
 import { useGameStore, selectCurrentPhase } from '../../store/gameStore'
 import OfficeZones from './OfficeZones'
 import AgentAvatars from './AgentAvatars'
 import Effects from './Effects'
 import { GamePhase } from '../../store/gameStore'
 
-// Zone Labels Component
+// Zone Labels Component - Using placeholder spheres due to Text3D version compatibility
 function ZoneLabels({ currentPhase }: { currentPhase: GamePhase }) {
   const zones = [
-    { name: 'RESEARCH\nLAB', position: [-5, 3, 0] as [number, number, number], color: '#00F0FF', activePhase: 'RESEARCHING' as GamePhase },
-    { name: 'IDEATION\nARENA', position: [0, 3, 0] as [number, number, number], color: '#FFD600', activePhase: 'VALIDATING' as GamePhase },
-    { name: 'STRATEGY\nROOM', position: [5, 3, 0] as [number, number, number], color: '#BD00FF', activePhase: 'STRATEGIZING' as GamePhase }
+    { name: 'RESEARCH LAB', position: [-5, 3, 0] as [number, number, number], color: '#00F0FF', activePhase: 'RESEARCHING' as GamePhase },
+    { name: 'IDEATION ARENA', position: [0, 3, 0] as [number, number, number], color: '#FFD600', activePhase: 'VALIDATING' as GamePhase },
+    { name: 'STRATEGY ROOM', position: [5, 3, 0] as [number, number, number], color: '#BD00FF', activePhase: 'STRATEGIZING' as GamePhase }
   ]
 
   return (
@@ -24,28 +24,16 @@ function ZoneLabels({ currentPhase }: { currentPhase: GamePhase }) {
       {zones.map((zone) => {
         const isActive = currentPhase === zone.activePhase
         return (
-          <Center key={zone.name} position={zone.position}>
-            <Text3D
-              font="/fonts/Inter_Bold.json"
-              size={0.3}
-              height={0.1}
-              curveSegments={12}
-              bevelEnabled
-              bevelThickness={0.02}
-              bevelSize={0.02}
-              bevelOffset={0}
-              bevelSegments={5}
-            >
-              {zone.name}
-              <meshStandardMaterial
-                color={zone.color}
-                emissive={zone.color}
-                emissiveIntensity={isActive ? 2 : 0.5}
-                metalness={0.8}
-                roughness={0.2}
-              />
-            </Text3D>
-          </Center>
+          <mesh key={zone.name} position={zone.position}>
+            <sphereGeometry args={[0.3, 16, 16]} />
+            <meshStandardMaterial
+              color={zone.color}
+              emissive={zone.color}
+              emissiveIntensity={isActive ? 2 : 0.5}
+              metalness={0.8}
+              roughness={0.2}
+            />
+          </mesh>
         )
       })}
     </>

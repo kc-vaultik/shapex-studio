@@ -62,7 +62,7 @@ function GameApp() {
     startAnalysis,
     makeDecision,
     loadNextIdea,
-    ideas
+    availableIdeas
   } = useGameStore()
 
   // Use REAL analysis hook for 3-agent workflow (connected to backend)
@@ -74,13 +74,13 @@ function GameApp() {
 
   // Load first idea on mount
   useEffect(() => {
-    if (!currentIdea && ideas.length > 0) {
+    if (!currentIdea && availableIdeas && availableIdeas.length > 0) {
       loadNextIdea()
     }
   }, [])
 
   // Convert store ideas to display format for IdeaBoard
-  const ycIdeas = ideas.map(idea => ({
+  const ycIdeas = (availableIdeas || []).map(idea => ({
     id: idea.id,
     title: idea.title,
     description: idea.description,
@@ -91,7 +91,7 @@ function GameApp() {
   }))
 
   const handleStartAnalysis = (idea: typeof ycIdeas[0]) => {
-    const storeIdea = ideas.find(i => i.id === idea.id)
+    const storeIdea = availableIdeas?.find(i => i.id === idea.id)
     if (!storeIdea) return
 
     if (money < idea.cost) {

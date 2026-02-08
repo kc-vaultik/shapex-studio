@@ -7,7 +7,7 @@ import { useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Mesh, Group, Vector3 } from 'three'
 import { useGameStore, selectAgents, Agent } from '../../store/gameStore'
-import { Text } from '@react-three/drei'
+// import { Text } from '@react-three/drei' // Temporarily disabled due to version compatibility
 import EnhancedAgentModel from './EnhancedAgentModel'
 
 function AgentAvatar({ agent }: { agent: Agent }) {
@@ -59,8 +59,8 @@ function AgentAvatar({ agent }: { agent: Agent }) {
         <EnhancedAgentModel agent={agent} />
       </group>
 
-      {/* Agent Name Label */}
-      <Text
+      {/* Agent Name Label - Temporarily disabled due to version compatibility */}
+      {/* <Text
         position={[0, -0.5, 0]}
         fontSize={0.2}
         color="#ffffff"
@@ -70,7 +70,7 @@ function AgentAvatar({ agent }: { agent: Agent }) {
         outlineColor="#000000"
       >
         {agent.name}
-      </Text>
+      </Text> */}
 
       {/* Progress Bar (when working) */}
       {agent.status === 'WORKING' && agent.progress > 0 && (
@@ -89,8 +89,8 @@ function AgentAvatar({ agent }: { agent: Agent }) {
               emissiveIntensity={1}
             />
           </mesh>
-          {/* Progress Text */}
-          <Text
+          {/* Progress Text - Temporarily disabled due to version compatibility */}
+          {/* <Text
             position={[0, 0, 0.03]}
             fontSize={0.08}
             color="#ffffff"
@@ -98,7 +98,7 @@ function AgentAvatar({ agent }: { agent: Agent }) {
             anchorY="middle"
           >
             {Math.round(agent.progress)}%
-          </Text>
+          </Text> */}
         </group>
       )}
 

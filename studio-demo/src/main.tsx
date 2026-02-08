@@ -1,10 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import GameApp from './GameApp'
+import Game3D from './components/3d/Game3D'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <GameApp />
+    <Game3D />
   </StrictMode>,
 )
